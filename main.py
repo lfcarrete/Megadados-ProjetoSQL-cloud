@@ -2,7 +2,7 @@ from email.policy import HTTP
 from fastapi import FastAPI, HTTPException
 from uuid import UUID
 from typing import List
-from models import User, Gender, Role, Product, Cart
+from models import User, Gender, Product, Cart
 
 
 app = FastAPI()
@@ -14,16 +14,14 @@ db = {
             first_name = "Jamila",
             last_name = "Ahmed",
             gender = Gender.female,
-            roles = [Role.student],
-            cart = None
+            Cart = None
         ),
         User(
             id = UUID("a8db539d-2303-4cda-b174-c7edd84435fd"),
             first_name = "Alex",
-            last_name = "Jonesssss",
+            last_name = "Jones",
             gender = Gender.male,
-            roles = [Role.admin, Role.user],
-            cart = None
+            Cart = None
         ),
     ],
     'products': [
@@ -45,15 +43,45 @@ db = {
     ]
 }
 
+# Get de todos os usuários do db
+@app.get("/users")
+async def fetch_users():
+    return db["user"]
 
-@app.get("/")
-async def root():
-    return {"Hello": "World"}
 
+# Get de um usuário
+@app.get("/user/{user_id}/")
+def read_items(user_id: str):
+    vef = 0
+    for u in db['user']:
+        print(u.id)
+        if u.id == UUID(user_id):
+            vef = 0
+            return u
+        
+        else:
+            vef = 1
+    
+    if vef == 1:
+        raise HTTPException(status_code = 404, detail = "User not found")
+
+# Get de um produto
 @app.get("/carrinho/{carrinho_id}/")
 def read_items(carrinho_id: str):
-    return db
+    vef = 0
+    for products in db['products']:
+        print(products.id)
+        if products.id == UUID(carrinho_id):
+            vef = 0
+            return products
+        
+        else:
+            vef = 1
+    
+    if vef == 1:
+        raise HTTPException(status_code = 404, detail = "Item not found")
 
+# Post de um usuário
 @app.post("/api/v1/users")
 async def register_user(user: User):
     db["user"].append(user)
@@ -87,6 +115,7 @@ async def addItems(user_id: str, product_name: str):
 
             return selUser
 
+# Delete de um usuário
 @app.delete("/api/v1/users/{user_id}")
 async def delete_user(user_id: UUID):
     for user in db["user"]:
