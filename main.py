@@ -159,7 +159,18 @@ async def root():
 
 @app.get("/carrinho/{carrinho_id}/")
 def read_items(carrinho_id: str):
-    return db
+    vef = 0
+    for products in db['products']:
+        print(products.id)
+        if products.id == UUID(carrinho_id):
+            vef = 0
+            return products
+        
+        else:
+            vef = 1
+    
+    if vef == 1:
+        raise HTTPException(status_code = 404, detail = "Item not found")
 
 @app.post("/api/v1/users")
 async def register_user(user: User):
