@@ -26,6 +26,6 @@ class Product(BaseModel):
     price: float
     name: str
 
-class Cart(BBaseModel):
+class Cart(BaseModel):
     id: Optional[UUID] = uuid4()
     products: List[Product] 

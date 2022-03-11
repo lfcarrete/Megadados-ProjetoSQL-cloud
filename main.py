@@ -22,15 +22,38 @@ db: List[User] = [
         gender = Gender.male,
         roles = [Role.admin, Role.user]
     )
-]
+    
+] 
+
+db2:    List[Product] = [
+        Product(
+            id = UUID("SE93QE"),
+            price = 10.2,
+            name = "Pao de queijo"
+        ),
+        Product(
+            id = UUID("fgvdthgbrt"),
+            price = 20.0,
+            name = "Cafe de vinte conto"
+        ),
+        Product(
+            id = UUID("vvbdgfbdteg"),
+            price = 15,
+            name = "Iogurte"
+        ), 
+
+    ]
+
+
+    
 
 @app.get("/")
 async def root():
     return {"Hello": "World"}
 
-@app.get("/carrinho/carrinho_id/")
+@app.get("/carrinho/{carrinho_id}/")
 def read_items(carrinho_id: str):
-    return db;
+    return db
 
 @app.post("/api/v1/users")
 async def register_user(user: User):
