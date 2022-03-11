@@ -2,7 +2,7 @@ from email.policy import HTTP
 from fastapi import FastAPI, HTTPException
 from uuid import UUID
 from typing import List
-from models import User, Gender, Role, Product
+from models import User, Gender, Product
 
 
 app = FastAPI()
@@ -15,15 +15,13 @@ db = {
             first_name = "Jamila",
             last_name = "Ahmed",
             gender = Gender.female,
-            roles = [Role.student],
             Cart = None
         ),
         User(
             id = UUID("a8db539d-2303-4cda-b174-c7edd84435fd"),
             first_name = "Alex",
-            last_name = "Jonesssss",
+            last_name = "Jones",
             gender = Gender.male,
-            roles = [Role.admin, Role.user],
             Cart = None
         ),
     ],
@@ -46,10 +44,29 @@ db = {
     ]
 }
 
+# Get de todos os usuários do db
 @app.get("/users")
 async def fetch_users():
     return db["user"];
 
+
+# Get de um usuário
+@app.get("/user/{user_id}/")
+def read_items(user_id: str):
+    vef = 0
+    for u in db['user']:
+        print(u.id)
+        if u.id == UUID(user_id):
+            vef = 0
+            return u
+        
+        else:
+            vef = 1
+    
+    if vef == 1:
+        raise HTTPException(status_code = 404, detail = "User not found")
+
+# Get de um produto
 @app.get("/carrinho/{carrinho_id}/")
 def read_items(carrinho_id: str):
     vef = 0
@@ -65,11 +82,13 @@ def read_items(carrinho_id: str):
     if vef == 1:
         raise HTTPException(status_code = 404, detail = "Item not found")
 
+# Post de um usuário
 @app.post("/api/v1/users")
 async def register_user(user: User):
     db["user"].append(user)
     return {"id": user.id}
 
+# Delete de um usuário
 @app.delete("/api/v1/users/{user_id}")
 async def delete_user(user_id: UUID):
     for user in db["user"]:
