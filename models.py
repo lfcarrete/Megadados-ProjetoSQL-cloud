@@ -13,15 +13,6 @@ class Role(str, Enum):
     user = "user"
     student = "student"
 
-class User(BaseModel):
-    id: Optional[UUID] = uuid4()
-    first_name: str 
-    last_name: str 
-    middle_name: Optional[str]
-    gender: Gender
-    roles: List[Role]
-    cart: Cart
-
 class Product(BaseModel):
     id: Optional[UUID] = uuid4()
     price: float
@@ -30,3 +21,12 @@ class Product(BaseModel):
 class Cart(BaseModel):
     id: Optional[UUID] = uuid4()
     products: List[Product] 
+
+class User(BaseModel):
+    id: Optional[UUID] = uuid4()
+    first_name: str 
+    last_name: str 
+    middle_name: Optional[str]
+    gender: Gender
+    roles: List[Role]
+    cart: Cart
