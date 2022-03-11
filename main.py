@@ -28,8 +28,8 @@ db: List[User] = [
 async def root():
     return {"Hello": "World"}
 
-@app.get("/api/v1/users")
-async def fetch_users():
+@app.get("/carrinho/carrinho_id/")
+def read_items(carrinho_id: str):
     return db;
 
 @app.post("/api/v1/users")
