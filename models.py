@@ -19,7 +19,7 @@ class Product(BaseModel):
     name: str
 
 class Cart(BaseModel):
-    id: Optional[UUID] = uuid4()
+    id: int
     products: List[Product] 
 
 class User(BaseModel):
