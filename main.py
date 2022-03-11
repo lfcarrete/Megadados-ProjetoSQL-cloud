@@ -46,6 +46,9 @@ db = {
     ]
 }
 
+@app.get("/users")
+async def fetch_users():
+    return db["user"];
 
 @app.get("/carrinho/{carrinho_id}/")
 def read_items(carrinho_id: str):
