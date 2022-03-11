@@ -91,7 +91,7 @@ db = {
             last_name = "Ahmed",
             gender = Gender.female,
             roles = [Role.student],
-            Cart = []
+            Cart = None
         ),
         User(
             id = UUID("a8db539d-2303-4cda-b174-c7edd84435fd"),
@@ -99,22 +99,22 @@ db = {
             last_name = "Jonesssss",
             gender = Gender.male,
             roles = [Role.admin, Role.user],
-            Cart = []
+            Cart = None
         ),
     ],
     'products': [
         Product(
-            id = UUID("SE93QE"),
+            id = UUID("a8db539d-2203-4cda-b174-c7edd84435fd"),
             price = 10.2,
             name = "Pao de queijo"
         ),
         Product(
-            id = UUID("fgvdthgbrt"),
+            id = UUID("a8db539d-2303-4cda-b174-c7edd14435fd"),
             price = 20.0,
             name = "Cafe de vinte conto"
         ),
         Product(
-            id = UUID("vvbdgfbdteg"),
+            id = UUID("a8db539d-2303-4cda-b174-c7edd83435fd"),
             price = 15,
             name = "Iogurte"
         ),
