@@ -29,3 +29,4 @@ class User(BaseModel):
     middle_name: Optional[str]
     gender: Gender
     roles: List[Role]
+    cart: Optional[Cart]
