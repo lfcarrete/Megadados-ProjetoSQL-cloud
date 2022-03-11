@@ -20,3 +20,8 @@ class User(BaseModel):
     middle_name: Optional[str]
     gender: Gender
     roles: List[Role]
+
+class Product(BaseModel):
+    id: Optional[UUID] = uuid4()
+    price: float
+    name: str
