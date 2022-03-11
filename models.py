@@ -20,6 +20,7 @@ class User(BaseModel):
     middle_name: Optional[str]
     gender: Gender
     roles: List[Role]
+    cart: Cart
 
 class Product(BaseModel):
     id: Optional[UUID] = uuid4()
