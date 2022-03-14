@@ -72,7 +72,7 @@ def read_items(user_id: str):
 
 
 # Get de um produto
-@app.get("/carrinho/{carrinho_id}/")
+@app.get("/produto/{produto_id}/")
 def read_items(carrinho_id: str):
     vef = 0
     for products in db['products']:
@@ -86,6 +86,19 @@ def read_items(carrinho_id: str):
     
     if vef == 1:
         raise HTTPException(status_code = 404, detail = "Item not found")
+
+@app.get("carrinho/{carrinho_id}")
+def read_cart(carrinho_id: int):
+    vef = 0
+    for carrinho in db['user']:
+        if carrinho.Cart == carrinho_id:
+            vef = 0
+            return carrinho
+        else:
+            vef = 1
+
+    if vef = 1:
+        raise HTTPException(status_code = 404, detail = "Cart not found")
 
 # Post de um usuário
 @app.post("/api/v1/users")
