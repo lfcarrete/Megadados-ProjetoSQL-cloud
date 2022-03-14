@@ -44,10 +44,14 @@ db = {
 }
 
 # Get de todos os usuários do db
-@app.get("/users")
+@app.get("/user")
 async def fetch_users():
     return db["user"]
 
+# Get de todos os produtos
+@app.get("/product")
+async def fetch_products():
+    return db["products"]
 
 # Get de um usuário
 @app.get("/user/{user_id}/")
@@ -64,6 +68,8 @@ def read_items(user_id: str):
     
     if vef == 1:
         raise HTTPException(status_code = 404, detail = "User not found")
+
+
 
 # Get de um produto
 @app.get("/carrinho/{carrinho_id}/")
