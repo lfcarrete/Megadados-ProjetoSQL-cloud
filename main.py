@@ -88,11 +88,11 @@ async def register_user(user: User):
     return {"id": user.id}
 
 @app.post("/api/v1/cart/{user_id}/{product_name}")
-async def addItems(user_id: str, product_name: str):
+async def addItems(user_id: int, product_name: str):
     selUser = None
     selProduct = None
     for user in db["user"]:
-        if user.id == UUID(user_id):
+        if user.id == user_id:
             selUser = user
     if(selUser == None):
         return "Nenhum Usuario Encontrado."
@@ -165,7 +165,7 @@ async def deleteFromCart(user_id: str, product_id: str):
 
 # Delete de um usuário
 @app.delete("/api/v1/users/{user_id}")
-async def delete_user(user_id: UUID):
+async def delete_user(user_id: int):
     for user in db["user"]:
         if user.id == user_id:
             db["user"].remove(user)
