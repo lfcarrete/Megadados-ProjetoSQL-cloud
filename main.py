@@ -55,11 +55,11 @@ async def fetch_products():
 
 # Get de um usuário
 @app.get("/user/{user_id}/")
-def read_items(user_id: str):
+def read_items(user_id: int):
     vef = 0
     for u in db['user']:
         print(u.id)
-        if u.id == UUID(user_id):
+        if u.id == user_id:
             vef = 0
             return u
         
@@ -94,11 +94,11 @@ async def register_user(user: User):
     return {"id": user.id}
 
 @app.post("/api/v1/cart/{user_id}/{product_name}")
-async def addItems(user_id: str, product_name: str):
+async def addItems(user_id: int, product_name: str):
     selUser = None
     selProduct = None
     for user in db["user"]:
-        if user.id == UUID(user_id):
+        if user.id == user_id:
             selUser = user
     if(selUser == None):
         return "Nenhum Usuario Encontrado."
@@ -140,11 +140,11 @@ def getCart(user_id: int):
 
 #Delete Produto do Carrinho
 @app.delete("/api/v1/cart/{user_id}/{product_id}")
-async def deleteFromCart(user_id: str, product_id: str):
+async def deleteFromCart(user_id: int, product_id: int):
     selUser = None
     selProduct = None
     for user in db["user"]:
-        if(user.id == UUID(user_id)):
+        if(user.id == user_id):
             selUser = user
     if(selUser == None):
         return "Nenhum Usuario Encontrado."
@@ -154,7 +154,7 @@ async def deleteFromCart(user_id: str, product_id: str):
         
         else:
             for product in selUser.cart.products:
-                if(product.id == UUID(product_id)):
+                if(product.id == product_id):
                     selProduct = product
                 
             if(selProduct == None):
@@ -162,7 +162,7 @@ async def deleteFromCart(user_id: str, product_id: str):
             
             else:
                 for e in selUser.cart.products:
-                    if(UUID(product_id) == e.id):
+                    if(product_id == e.id):
                         selUser.cart.products.remove(e)
 
                 return "Produto Apagado"
@@ -171,7 +171,7 @@ async def deleteFromCart(user_id: str, product_id: str):
 
 # Delete de um usuário
 @app.delete("/api/v1/users/{user_id}")
-async def delete_user(user_id: UUID):
+async def delete_user(user_id: int):
     for user in db["user"]:
         if user.id == user_id:
             db["user"].remove(user)
