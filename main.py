@@ -10,14 +10,14 @@ app = FastAPI()
 db = {
     'user': [
         User(
-            id = UUID("0422058c-efa8-4a1d-8fae-4229fb6abfe5"),
+            id = 10,
             first_name = "Jamila",
             last_name = "Ahmed",
             gender = Gender.female,
             Cart = None
         ),
         User(
-            id = UUID("a8db539d-2303-4cda-b174-c7edd84435fd"),
+            id = 5,
             first_name = "Alex",
             last_name = "Jones",
             gender = Gender.male,
@@ -26,17 +26,17 @@ db = {
     ],
     'products': [
         Product(
-            id = UUID("a8db539d-2203-4cda-b174-c7edd84435fd"),
+            id = 2,
             price = 10.2,
             name = "Pao de queijo"
         ),
         Product(
-            id = UUID("a8db539d-2303-4cda-b174-c7edd14435fd"),
+            id = 1,
             price = 20.0,
             name = "Cafe de vinte conto"
         ),
         Product(
-            id = UUID("a8db539d-2303-4cda-b174-c7edd83435fd"),
+            id = 8,
             price = 15,
             name = "Iogurte"
         ),
@@ -67,11 +67,11 @@ def read_items(user_id: str):
 
 # Get de um produto
 @app.get("/produto/{produto_id}/")
-def read_items(carrinho_id: str):
+def read_items(carrinho_id: int):
     vef = 0
     for products in db['products']:
         print(products.id)
-        if products.id == UUID(carrinho_id):
+        if products.id == carrinho_id:
             vef = 0
             return products
         
@@ -80,19 +80,6 @@ def read_items(carrinho_id: str):
     
     if vef == 1:
         raise HTTPException(status_code = 404, detail = "Item not found")
-
-@app.get("carrinho/{carrinho_id}")
-def read_cart(carrinho_id: int):
-    vef = 0
-    for carrinho in db['user']:
-        if carrinho.Cart == carrinho_id:
-            vef = 0
-            return carrinho
-        else:
-            vef = 1
-
-    if vef == 1:
-        raise HTTPException(status_code = 404, detail = "Cart not found")
 
 # Post de um usuário
 @app.post("/api/v1/users")
@@ -130,11 +117,11 @@ async def addItems(user_id: str, product_name: str):
 
 #Get do Carrinho
 @app.get("/carrinho/{user_Id}")
-def getCart(user_id: str):
+def getCart(user_id: int):
     selUser = None
 
     for user in db["user"]:
-        if user.id == UUID(user_id):
+        if user.id == user_id:
             selUser = user
     if(selUser == None):
         return "Nenhum Usuario Encontrado."
