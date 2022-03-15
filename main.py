@@ -92,9 +92,9 @@ async def addItems(user_id: str, product_name: str):
     selUser = None
     selProduct = None
     for user in db["user"]:
-        if(user.id == UUID(user_id)):
+        if user.id == UUID(user_id):
             selUser = user
-    if(user == None):
+    if(selUser == None):
         return "Nenhum Usuario Encontrado."
     else:
         for product in db["products"]:
@@ -112,6 +112,65 @@ async def addItems(user_id: str, product_name: str):
                 selUser.cart = newCart
             else:
                 selUser.cart.products.append(selProduct)
+
+            return selUser
+
+#Get do Carrinho
+@app.get("/carrinho/{user_Id}")
+def getCart(user_id: str):
+    selUser = None
+
+    for user in db["user"]:
+        if user.id == UUID(user_id):
+            selUser = user
+    if(selUser == None):
+        return "Nenhum Usuario Encontrado."
+    else:
+        if(selUser.cart == None):
+            return "O usuário não contem nenhum produto em seu carrinho"
+        else:
+            return selUser.cart
+    
+
+#Delete Produto do Carrinho
+@app.delete("/api/v1/cart/{user_id}/{product_name}")
+async def addItems(user_id: str, product_name: str):
+    selUser = None
+    selProduct = None
+    for user in db["user"]:
+        if(user.id == UUID(user_id)):
+            selUser = user
+    if(selUser == None):
+        return "Nenhum Usuario Encontrado."
+    else:
+        if(selUser.cart == None):
+                return "Não existe nenhum produto neste carrinho"
+        
+        else:
+            for product in selUser.cart.products:
+                if(product.name == product_name):
+                    selProduct = product
+                
+            if(selProduct == None):
+                return "Nenhum Produto Encontrado Neste Carrinho Com esse nome"
+            
+            else:
+                newCart = None
+                for e in selUser.cart.products:
+                    if(product_name != e.name):
+                        if(newCart == None):
+                            newCart = Cart(
+                                id = 1,
+                                products = [e]
+                            )
+                        else:
+                            selUser.cart.products.append(e)
+                selUser.cart = newCart
+
+                return "Produto Apagado"
+
+
+
 
             return selUser
 
