@@ -51,11 +51,11 @@ async def fetch_users():
 
 # Get de um usuário
 @app.get("/user/{user_id}/")
-def read_items(user_id: str):
+def read_items(user_id: int):
     vef = 0
     for u in db['user']:
         print(u.id)
-        if u.id == UUID(user_id):
+        if u.id == user_id:
             vef = 0
             return u
         
