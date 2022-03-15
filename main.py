@@ -134,7 +134,7 @@ def getCart(user_id: str):
 
 #Delete Produto do Carrinho
 @app.delete("/api/v1/cart/{user_id}/{product_id}")
-async def addItems(user_id: str, product_id: str):
+async def deleteFromCart(user_id: str, product_id: str):
     selUser = None
     selProduct = None
     for user in db["user"]:
@@ -155,17 +155,9 @@ async def addItems(user_id: str, product_id: str):
                 return "Nenhum Produto Encontrado Neste Carrinho Com esse nome"
             
             else:
-                newCart = None
                 for e in selUser.cart.products:
-                    if(UUID(product_id) != e.id):
-                        if(newCart == None):
-                            newCart = Cart(
-                                id = 1,
-                                products = [e]
-                            )
-                        else:
-                            selUser.cart.products.append(e)
-                selUser.cart = newCart
+                    if(UUID(product_id) == e.id):
+                        selUser.cart.products.remove(e)
 
                 return "Produto Apagado"
 
