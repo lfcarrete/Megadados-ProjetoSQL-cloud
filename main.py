@@ -91,7 +91,7 @@ def read_cart(carrinho_id: int):
         else:
             vef = 1
 
-    if vef = 1:
+    if vef == 1:
         raise HTTPException(status_code = 404, detail = "Cart not found")
 
 # Post de um usuário
@@ -165,7 +165,7 @@ async def deleteFromCart(user_id: str, product_id: str):
                     selProduct = product
                 
             if(selProduct == None):
-                return "Nenhum Produto Encontrado Neste Carrinho Com esse nome"
+                return "Nenhum Produto Encontrado Neste Carrinho Com esse ID"
             
             else:
                 for e in selUser.cart.products:
