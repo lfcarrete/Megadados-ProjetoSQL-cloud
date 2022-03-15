@@ -9,7 +9,7 @@ class Gender(str, Enum):
     female = "female"
 
 class Product(BaseModel):
-    id: Optional[UUID] = uuid4()
+    id: Optional[int]
     price: float
     name: str
 
@@ -18,7 +18,7 @@ class Cart(BaseModel):
     products: List[Product] 
 
 class User(BaseModel):
-    id: Optional[UUID] = uuid4()
+    id: Optional[int]
     first_name: str 
     last_name: str 
     middle_name: Optional[str]
