@@ -21,6 +21,12 @@ class User(BaseModel):
     id: Optional[int]
     first_name: str 
     last_name: str 
-    middle_name: Optional[str]
     gender: Gender
     cart: Optional[Cart]
+
+class UpdateUser(BaseModel):
+    id: Optional[int] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    gender: Optional[Gender] = None
+    cart: Optional[Cart] = None

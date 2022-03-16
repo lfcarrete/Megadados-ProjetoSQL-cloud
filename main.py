@@ -2,7 +2,7 @@ from email.policy import HTTP
 from fastapi import FastAPI, HTTPException
 from uuid import UUID
 from typing import List
-from models import User, Gender, Product, Cart
+from models import User, Gender, Product, Cart, UpdateUser
 
 
 app = FastAPI()
@@ -10,14 +10,14 @@ app = FastAPI()
 db = {
     'user': [
         User(
-            id = 10,
+            id = 1,
             first_name = "Jamila",
             last_name = "Ahmed",
             gender = Gender.female,
             Cart = None
         ),
         User(
-            id = 5,
+            id = 2,
             first_name = "Alex",
             last_name = "Jones",
             gender = Gender.male,
@@ -36,7 +36,7 @@ db = {
             name = "Cafe de vinte conto"
         ),
         Product(
-            id = 8,
+            id = 3,
             price = 15,
             name = "Iogurte"
         ),
@@ -93,6 +93,16 @@ async def register_user(user: User):
     db["user"].append(user)
     return {"id": user.id}
 
+
+# @app.post("/api/v1/users")
+# async def register_user(user: User):
+#     for user in db["user"]:
+#         if user.id == :
+#             return "Já existe um usuário com este ID"
+#         else:
+#             db["user"].append(user)
+#             return {"id": user.id}
+
 @app.post("/api/v1/cart/{user_id}/{product_name}")
 async def addItems(user_id: int, product_name: str):
     selUser = None
@@ -121,7 +131,7 @@ async def addItems(user_id: int, product_name: str):
 
             return selUser
 
-#Get do Carrinho
+# Get do Carrinho
 @app.get("/carrinho/{user_Id}")
 def getCart(user_id: int):
     selUser = None
@@ -137,6 +147,31 @@ def getCart(user_id: int):
         else:
             return selUser.cart
     
+# Atualizar dados de um usuário
+@app.put("/user_update/{user_id}")
+async def put_user(user_id: int, user: UpdateUser):
+    
+    selUser = None
+
+    for userDB in db["user"]:
+        if userDB.id == user_id:
+            selUser = userDB
+            print("\n")
+            print(user.id)
+            print("\n")
+            print(user.first_name)
+            print("\n")
+
+    if user.id != None:
+        selUser.id = user.id 
+    if user.first_name != None:
+        selUser.first_name = user.first_name
+    if user.last_name != None:
+        selUser.last_name = user.last_name
+    if user.gender != None:
+        selUser.gender = user.gender
+    
+    return selUser
 
 #Delete Produto do Carrinho
 @app.delete("/api/v1/cart/{user_id}/{product_id}")
