@@ -156,11 +156,6 @@ async def put_user(user_id: int, user: UpdateUser):
     for userDB in db["user"]:
         if userDB.id == user_id:
             selUser = userDB
-            print("\n")
-            print(user.id)
-            print("\n")
-            print(user.first_name)
-            print("\n")
 
     if user.id != None:
         selUser.id = user.id 
