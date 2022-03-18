@@ -173,7 +173,7 @@ async def put_user(user_id: int, user: UpdateUser, description="Faz uma operaç�
 
 #Delete Produto do Carrinho
 @app.delete("/carrinho/{user_id}/{product_id}")
-async def deleteFromCart(user_id: int, product_id: int):
+async def deleteFromCart(user_id: int, product_id: int, description="Faz uma operação de DELETE para apagar um produto de um carrinho. Se ele não achar um carrinho retorna que não há produtos neste carrinho e se não achar um produto no carrinho, retorna que não achou com aquele product_id"):
     selUser = None
     selProduct = None
     for user in db["user"]:
@@ -204,7 +204,7 @@ async def deleteFromCart(user_id: int, product_id: int):
 
 # Delete de um usuário
 @app.delete("/users/{user_id}")
-async def delete_user(user_id: int):
+async def delete_user(user_id: int, description="Faz uma operação DELETE para apagar um usuário. Se ele não achar o user_id, joga uma excessão 404."):
     for user in db["user"]:
         if user.id == user_id:
             db["user"].remove(user)
