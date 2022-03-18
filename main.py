@@ -73,7 +73,7 @@ def read_items(user_id: int):
 
 # Get de um produto
 @app.get("/produto/{produto_id}/")
-def read_items(carrinho_id: int):
+def read_items(carrinho_id: int, description="Faz uma operação GET para retornar um produto. Se ele não achar, retorna que o item não foi achado."):
     vef = 0
     for products in db['products']:
         print(products.id)
@@ -85,7 +85,8 @@ def read_items(carrinho_id: int):
             vef = 1
     
     if vef == 1:
-        raise HTTPException(status_code = 404, detail = "Item not found")
+        #raise HTTPException(status_code = 404, detail = "Item not found")
+        return "Item not found"
 
 
 # Get do Carrinho
