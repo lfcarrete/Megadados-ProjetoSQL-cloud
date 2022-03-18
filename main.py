@@ -90,7 +90,7 @@ def read_items(carrinho_id: int):
 
 # Get do Carrinho
 @app.get("/carrinho/{user_Id}")
-def getCart(user_id: int):
+def getCart(user_id: int, description="Faz uma operação GET para retornar um carrinho. Se ele não encontrar, retorna que não há nenhum usuário ou que não há nenhum produto no carrinho"):
     selUser = None
 
     for user in db["user"]:
