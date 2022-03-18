@@ -152,7 +152,7 @@ async def addItems(user_id: int, product_name: str, description="Faz uma operaç
     
 # Atualizar dados de um usuário
 @app.put("/user_update/{user_id}")
-async def put_user(user_id: int, user: UpdateUser):
+async def put_user(user_id: int, user: UpdateUser, description="Faz uma operação PUT para atualizar um usuário."):
     
     selUser = None
 
