@@ -55,7 +55,7 @@ async def fetch_products():
 
 # Get de um usuário
 @app.get("/user/{user_id}/")
-def read_items(user_id: int):
+def read_items(user_id: int, description="Faz uma operação GET para retornar um usuário. Se ele não achar, retorna que o usuário não foi achado"):
     vef = 0
     for u in db['user']:
         print(u.id)
@@ -67,7 +67,8 @@ def read_items(user_id: int):
             vef = 1
     
     if vef == 1:
-        raise HTTPException(status_code = 404, detail = "User not found")
+        #raise HTTPException(status_code = 404, detail = "User not found")
+        return "User not found"
 
 
 
