@@ -123,7 +123,7 @@ async def register_user(user: User):
 #             return {"id": user.id}
 
 @app.post("/carrinho/{user_id}/{product_name}")
-async def addItems(user_id: int, product_name: str):
+async def addItems(user_id: int, product_name: str, description="Faz uma operação POST para adicionar um produto a um carrinho já cadastrado."):
     selUser = None
     selProduct = None
     for user in db["user"]:
