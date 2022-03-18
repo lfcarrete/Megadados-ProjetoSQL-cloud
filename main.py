@@ -2,7 +2,7 @@ from email.policy import HTTP
 from fastapi import FastAPI, HTTPException
 from uuid import UUID
 from typing import List
-from models import User, Gender, Product, Cart, UpdateUser
+from models import User, Gender, Product, Cart, UpdateUser, UpdateProduct
 
 
 app = FastAPI()
@@ -73,7 +73,7 @@ def read_items(user_id: int, description="Faz uma operação GET para retornar u
 
 
 # Get de um produto
-@app.get("/produto/{produto_id}/")
+@app.get("/product/{product_id}/")
 def read_items(carrinho_id: int, description="Faz uma operação GET para retornar um produto. Se ele não achar, retorna que o item não foi achado."):
     vef = 0
     for products in db['products']:
@@ -91,7 +91,7 @@ def read_items(carrinho_id: int, description="Faz uma operação GET para retorn
 
 
 # Get do Carrinho
-@app.get("/carrinho/{user_Id}")
+@app.get("/cart/{user_Id}")
 def getCart(user_id: int, description="Faz uma operação GET para retornar um carrinho. Se ele não encontrar, retorna que não há nenhum usuário ou que não há nenhum produto no carrinho"):
     selUser = None
 
@@ -107,22 +107,13 @@ def getCart(user_id: int, description="Faz uma operação GET para retornar um c
             return selUser.cart
 
 # Post de um usuário
-@app.post("/users")
+@app.post("/user")
 async def register_user(user: User):
     db["user"].append(user)
     return {"id": user.id}
 
 
-# @app.post("/api/v1/users")
-# async def register_user(user: User):
-#     for user in db["user"]:
-#         if user.id == :
-#             return "Já existe um usuário com este ID"
-#         else:
-#             db["user"].append(user)
-#             return {"id": user.id}
-
-@app.post("/carrinho/{user_id}/{product_name}")
+@app.post("/cart/{user_id}/{product_name}")
 async def addItems(user_id: int, product_name: str, description="Faz uma operação POST para adicionar um produto a um carrinho já cadastrado."):
     selUser = None
     selProduct = None
@@ -151,7 +142,7 @@ async def addItems(user_id: int, product_name: str, description="Faz uma operaç
             return selUser
     
 # Atualizar dados de um usuário
-@app.put("/user_update/{user_id}")
+@app.put("/user/{user_id}")
 async def put_user(user_id: int, user: UpdateUser, description="Faz uma operação PUT para atualizar um usuário."):
     
     selUser = None
@@ -171,8 +162,27 @@ async def put_user(user_id: int, user: UpdateUser, description="Faz uma operaç�
     
     return selUser
 
+# Atualizar dados de um produto
+@app.put("/product/{product_id}")
+async def put_product(product_id: int, product: UpdateProduct):
+    
+    selProduct = None
+
+    for produtoDB in db["products"]:
+        if produtoDB.id == product_id:
+            selProduct = produtoDB
+
+    if product.id != None:
+        selProduct.id = product.id 
+    if product.price != None:
+        selProduct.price = product.price
+    if product.name != None:
+        selProduct.name = product.name
+
+    return selProduct
+
 #Delete Produto do Carrinho
-@app.delete("/carrinho/{user_id}/{product_id}")
+@app.delete("/cart/{user_id}/{product_id}")
 async def deleteFromCart(user_id: int, product_id: int, description="Faz uma operação de DELETE para apagar um produto de um carrinho. Se ele não achar um carrinho retorna que não há produtos neste carrinho e se não achar um produto no carrinho, retorna que não achou com aquele product_id"):
     selUser = None
     selProduct = None
@@ -203,7 +213,7 @@ async def deleteFromCart(user_id: int, product_id: int, description="Faz uma ope
 
 
 # Delete de um usuário
-@app.delete("/users/{user_id}")
+@app.delete("/user/{user_id}")
 async def delete_user(user_id: int, description="Faz uma operação DELETE para apagar um usuário. Se ele não achar o user_id, joga uma excessão 404."):
     for user in db["user"]:
         if user.id == user_id:

@@ -30,3 +30,8 @@ class UpdateUser(BaseModel):
     last_name: Optional[str] = None
     gender: Optional[Gender] = None
     cart: Optional[Cart] = None
+
+class UpdateProduct(BaseModel):
+    id: Optional[int] = None
+    price: Optional[float] = None
+    name: Optional[str] = None
