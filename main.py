@@ -87,8 +87,25 @@ def read_items(carrinho_id: int):
     if vef == 1:
         raise HTTPException(status_code = 404, detail = "Item not found")
 
+
+# Get do Carrinho
+@app.get("/carrinho/{user_Id}")
+def getCart(user_id: int):
+    selUser = None
+
+    for user in db["user"]:
+        if user.id == user_id:
+            selUser = user
+    if(selUser == None):
+        return "Nenhum Usuario Encontrado."
+    else:
+        if(selUser.cart == None):
+            return "O usuário não contem nenhum produto em seu carrinho"
+        else:
+            return selUser.cart
+
 # Post de um usuário
-@app.post("/api/v1/users")
+@app.post("/users")
 async def register_user(user: User):
     db["user"].append(user)
     return {"id": user.id}
@@ -103,7 +120,7 @@ async def register_user(user: User):
 #             db["user"].append(user)
 #             return {"id": user.id}
 
-@app.post("/api/v1/cart/{user_id}/{product_name}")
+@app.post("/carrinho/{user_id}/{product_name}")
 async def addItems(user_id: int, product_name: str):
     selUser = None
     selProduct = None
@@ -130,22 +147,6 @@ async def addItems(user_id: int, product_name: str):
                 selUser.cart.products.append(selProduct)
 
             return selUser
-
-# Get do Carrinho
-@app.get("/carrinho/{user_Id}")
-def getCart(user_id: int):
-    selUser = None
-
-    for user in db["user"]:
-        if user.id == user_id:
-            selUser = user
-    if(selUser == None):
-        return "Nenhum Usuario Encontrado."
-    else:
-        if(selUser.cart == None):
-            return "O usuário não contem nenhum produto em seu carrinho"
-        else:
-            return selUser.cart
     
 # Atualizar dados de um usuário
 @app.put("/user_update/{user_id}")
@@ -169,7 +170,7 @@ async def put_user(user_id: int, user: UpdateUser):
     return selUser
 
 #Delete Produto do Carrinho
-@app.delete("/api/v1/cart/{user_id}/{product_id}")
+@app.delete("/carrinho/{user_id}/{product_id}")
 async def deleteFromCart(user_id: int, product_id: int):
     selUser = None
     selProduct = None
@@ -200,7 +201,7 @@ async def deleteFromCart(user_id: int, product_id: int):
 
 
 # Delete de um usuário
-@app.delete("/api/v1/users/{user_id}")
+@app.delete("/users/{user_id}")
 async def delete_user(user_id: int):
     for user in db["user"]:
         if user.id == user_id:
