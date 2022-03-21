@@ -44,18 +44,18 @@ db = {
 }
 
 # Get de todos os usuários do db
-@app.get("/user")
+@app.get("/user", tags=["Users"], description="Retorna todos usuários que existem no dataset.")
 async def fetch_users():
     return db["user"]
 
 # Get de todos os produtos
-@app.get("/product")
+@app.get("/product", tags=["Products"], description="Retorna todos os produtos que existem no dataset.")
 async def fetch_products():
     return db["products"]
 
 # Get de um usuário
-@app.get("/user/{user_id}/")
-def read_items(user_id: int, description="Faz uma operação GET para retornar um usuário. Se ele não achar, retorna que o usuário não foi achado"):
+@app.get("/user/{user_id}/",  tags=["Users"], description="Faz uma operação GET para retornar um usuário. Se ele não achar, retorna que o usuário não foi achado")
+def read_items(user_id: int):
     vef = 0
     for u in db['user']:
         print(u.id)
@@ -73,8 +73,8 @@ def read_items(user_id: int, description="Faz uma operação GET para retornar u
 
 
 # Get de um produto
-@app.get("/product/{product_id}/")
-def read_items(carrinho_id: int, description="Faz uma operação GET para retornar um produto. Se ele não achar, retorna que o item não foi achado."):
+@app.get("/product/{product_id}/",  tags=["Products"], description="Faz uma operação GET para retornar um produto. Se ele não achar, retorna que o item não foi achado.")
+def read_items(carrinho_id: int):
     vef = 0
     for products in db['products']:
         print(products.id)
@@ -91,8 +91,8 @@ def read_items(carrinho_id: int, description="Faz uma operação GET para retorn
 
 
 # Get do Carrinho
-@app.get("/cart/{user_Id}")
-def getCart(user_id: int, description="Faz uma operação GET para retornar um carrinho. Se ele não encontrar, retorna que não há nenhum usuário ou que não há nenhum produto no carrinho"):
+@app.get("/cart/{user_Id}", tags=["Carts"], description="Faz uma operação GET para retornar um carrinho. Se ele não encontrar, retorna que não há nenhum usuário ou que não há nenhum produto no carrinho")
+def getCart(user_id: int):
     selUser = None
 
     for user in db["user"]:
@@ -107,14 +107,14 @@ def getCart(user_id: int, description="Faz uma operação GET para retornar um c
             return selUser.cart
 
 # Post de um usuário
-@app.post("/user")
+@app.post("/user",  tags=["Users"], description="Cria um usuário novo no dataset.")
 async def register_user(user: User):
     db["user"].append(user)
     return {"id": user.id}
 
 
-@app.post("/cart/{user_id}/{product_name}")
-async def addItems(user_id: int, product_name: str, description="Faz uma operação POST para adicionar um produto a um carrinho já cadastrado."):
+@app.post("/cart/{user_id}/{product_name}", tags=["Carts"], description="Faz uma operação POST para adicionar um produto a um carrinho já cadastrado.")
+async def addItems(user_id: int, product_name: str):
     selUser = None
     selProduct = None
     for user in db["user"]:
@@ -142,8 +142,8 @@ async def addItems(user_id: int, product_name: str, description="Faz uma operaç
             return selUser
     
 # Atualizar dados de um usuário
-@app.put("/user/{user_id}")
-async def put_user(user_id: int, user: UpdateUser, description="Faz uma operação PUT para atualizar um usuário."):
+@app.put("/user/{user_id}",  tags=["Users"], description="Faz uma operação PUT para atualizar um usuário.")
+async def put_user(user_id: int, user: UpdateUser):
     
     selUser = None
 
@@ -163,7 +163,7 @@ async def put_user(user_id: int, user: UpdateUser, description="Faz uma operaç�
     return selUser
 
 # Atualizar dados de um produto
-@app.put("/product/{product_id}")
+@app.put("/product/{product_id}", tags=["Products"], description="Atualiza o produto no dataset, busca o produto pelo Id de seu produto e recebe as informações a ser alteradas.")
 async def put_product(product_id: int, product: UpdateProduct):
     
     selProduct = None
@@ -182,8 +182,8 @@ async def put_product(product_id: int, product: UpdateProduct):
     return selProduct
 
 #Delete Produto do Carrinho
-@app.delete("/cart/{user_id}/{product_id}")
-async def deleteFromCart(user_id: int, product_id: int, description="Faz uma operação de DELETE para apagar um produto de um carrinho. Se ele não achar um carrinho retorna que não há produtos neste carrinho e se não achar um produto no carrinho, retorna que não achou com aquele product_id"):
+@app.delete("/cart/{user_id}/{product_id}", tags=["Carts"], description="Faz uma operação de DELETE para apagar um produto de um carrinho. Se ele não achar um carrinho retorna que não há produtos neste carrinho e se não achar um produto no carrinho, retorna que não achou com aquele product_id")
+async def deleteFromCart(user_id: int, product_id: int):
     selUser = None
     selProduct = None
     for user in db["user"]:
@@ -213,8 +213,8 @@ async def deleteFromCart(user_id: int, product_id: int, description="Faz uma ope
 
 
 # Delete de um usuário
-@app.delete("/user/{user_id}")
-async def delete_user(user_id: int, description="Faz uma operação DELETE para apagar um usuário. Se ele não achar o user_id, joga uma excessão 404."):
+@app.delete("/user/{user_id}",  tags=["Users"], description="Faz uma operação DELETE para apagar um usuário. Se ele não achar o user_id, joga uma excessão 404.")
+async def delete_user(user_id: int):
     for user in db["user"]:
         if user.id == user_id:
             db["user"].remove(user)
