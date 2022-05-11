@@ -17,17 +17,17 @@ class User(Base):
     username = Column(String, unique=True, index=True)
     full_name = Column(String, unique=True, index=True)
     
-    items = relationship("Item", back_populates="owner")
+    items = relationship("Product", back_populates="owner")
     
 
-class Item(Base):
-    __tablename__ = "items"
+class Product(Base):
+    __tablename__ = "products"
     
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
     description = Column(String, index=True)
     price = Column(Float, index=True)
     tax = Column(Float, index=True)
-    #owner_id = Column(Integer, ForeignKey("users.id"))
+    owner_id = Column(Integer, ForeignKey("users.id"))
     
-    owner = relationship("User", back_populates="items")
+    owner = relationship("User", back_populates="products")
