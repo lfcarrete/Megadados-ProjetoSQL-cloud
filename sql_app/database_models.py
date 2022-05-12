@@ -9,12 +9,15 @@ class User(Base):
     __tablename__ = "users"
     
     id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True, index=True)
-    full_name = Column(String, unique=True, index=True)
+    first_name = Column(String, unique=True, index=True)
+    last_name = Column(String, unique=True, index=True)
+    gender = Column(String, unique=True, index=True)
+    #username = Column(String, unique=True, index=True)
+    #full_name = Column(String, unique=True, index=True)
     
     items = relationship("Product", back_populates="owner")
     
-
+# Mudar para Cart depois (fazer igual do projeto 1 entregado)
 class Product(Base):
     __tablename__ = "products"
     

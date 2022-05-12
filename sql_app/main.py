@@ -2,15 +2,15 @@ from email.policy import HTTP
 from fastapi import FastAPI, HTTPException, Depends
 from uuid import UUID
 from typing import List
-from models import User, Gender, Product, Cart, UpdateUser, UpdateProduct
+#from database_models import User, Gender, Product, Cart, UpdateUser, UpdateProduct
 
 from fastapi import FastAPI
 from .database import SessionLocal, engine
-from . import models, schemas, crud
+from . import database_models, schemas, crud
 
 from sqlalchemy.orm import Session
 
-models.Base.metadata.create_all(bind=engine)
+database_models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
@@ -58,12 +58,19 @@ def get_db():
     finally:
         db.close()
 
+# Pega todos os usuários
 @app.get("/user/", response_model=List[schemas.User], description="Retorna todos usuários que existem no dataset.")
 def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     users = crud.get_users(db, skip=skip, limit=limit)
     return users
 
-
+# Cria um usuário
+@app.post("/user/", response_model=schemas.User)
+def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+    db_user = crud.get_user(db, id=user.id)
+    if db_user:
+        raise HTTPException(status_code=400, detail="Id user already registered")
+    return crud.create_user(db=db, user=user)
 
 # ----- VERSAO ANTIGA -----------
 
