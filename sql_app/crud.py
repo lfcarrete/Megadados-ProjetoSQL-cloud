@@ -1,13 +1,13 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed May 11 13:51:07 2022
-
-@author: theob
-"""
-
 from sqlalchemy.orm import Session
 
 from . import models, schemas
+
+# from fastapi import FastAPI
+# from .database import SessionLocal, engine
+
+# models.Base.metadata.create_all(bind=engine)
+
+# app = FastAPI()
 
 def get_user(db: Session, user_id: int):
     return db.query(models.User).filter(models.User.id == user_id).first()

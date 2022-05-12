@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon May  9 15:33:41 2022
-
-@author: theob
-"""
-
 from typing import List, Optional
 
 from pydantic import BaseModel

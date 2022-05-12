@@ -1,14 +1,9 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon May  9 14:45:42 2022
-
-@author: theob
-"""
-
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Float
 from sqlalchemy.orm import relationship
 
 from .database import Base
+
+
 
 class User(Base):
     __tablename__ = "users"
