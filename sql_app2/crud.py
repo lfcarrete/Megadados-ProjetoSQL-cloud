@@ -34,3 +34,29 @@ def create_user_item(db: Session, item: schemas.ItemCreate, user_id: int):
     db.commit()
     db.refresh(db_item)
     return db_item
+
+def get_carrinho_per_user(db: Session, user_id: int):
+    
+    if db.query(models.Carrinho).filter(models.Carrinho.id_user == user_id).first() == None:
+        return "Nenhum carrinho com este id"
+    else:
+        return db.query(models.Carrinho).filter(models.Carrinho.id_user == user_id).first()
+    
+def delete_item_carrinho(db: Session, user_id: int, product_id: int):
+    
+    lista_prod = []
+    
+    usuario = db.query(models.User).filter(models.User.id == user_id).first()
+    
+    if usuario == None:
+        return "Nenhum usuário com este id"
+    
+    else:
+        for e in usuario.items():
+            if db.query(models.Item).filter(models.Item.id == product_id).first() != None:
+                usuario.items().remove(e)
+            else:
+                lista_prod.append(e)
+    
+    
+    
