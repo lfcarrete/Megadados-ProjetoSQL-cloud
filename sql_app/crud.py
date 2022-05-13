@@ -8,7 +8,10 @@ def get_user(db: Session, user_id: int):
 def get_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.User).offset(skip).limit(limit).all()
 
-def create_user(db: Session, user: schemas.UserCreate):
+def get_user_by_id(db: Session, id: int):
+    return db.query(models.User).filter(models.User.id == id).first()
+
+def create_user(db: Session, user: schemas.User):
     db_user = models.User(first_name=user.first_name, last_name=user.last_name, gender=user.gender)
     db.add(db_user)
     db.commit()

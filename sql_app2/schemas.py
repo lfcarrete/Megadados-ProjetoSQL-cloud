@@ -6,7 +6,7 @@ from pydantic import BaseModel
 class ItemBase(BaseModel):
     title: str
     description: Optional[str] = None
-    
+
 
 class ItemCreate(ItemBase):
     pass
@@ -15,23 +15,25 @@ class ItemCreate(ItemBase):
 class Item(ItemBase):
     id: int
     owner_id: int
-    
+
     class Config:
         orm_mode = True
 
 
 class UserBase(BaseModel):
-    first_name : str
-    last_name : str
-    
+    email: str
+    first_name: str
+    last_name: str
+    gender : str
 
-# class UserCreate(UserBase):
-#     id: int
-    
+
+class UserCreate(UserBase):
+    password: str
+
 
 class User(UserBase):
     id: int
-    #is_active: bool
+    is_active: bool
     items: List[Item] = []
 
     class Config:
