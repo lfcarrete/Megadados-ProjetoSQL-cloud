@@ -53,3 +53,8 @@ def create_item_for_user(
 def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     items = crud.get_items(db, skip=skip, limit=limit)
     return items
+
+@app.delete("/users/{user_id}/items/", response_model=schemas.User)
+def delete_item(user_id: int, item_id: int, db: Session = Depends(get_db)):
+    deleting = crud.delete_item_carrinho(db, user_id = user_id, product_id = item_id)
+    return deleting
