@@ -27,3 +27,13 @@ class Item(Base):
     owner_id = Column(Integer, ForeignKey("users.id"))
 
     owner = relationship("User", back_populates="items")
+    
+class Carrinho(Base):
+    __tablename__ = "carrinho"
+    
+    id_user = Column(Integer, ForeignKey("users.id"), primary_key=True, index=True)
+    id_produto = Column(Integer, ForeignKey("items.id"), primary_key=True, index=True)
+
+    quantidade = Column(Integer)
+    
+    #cart = relationship("User", "Item", back_populates=)
