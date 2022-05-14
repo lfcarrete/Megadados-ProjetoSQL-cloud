@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 
 class ItemBase(BaseModel):
-    title: str
+    produto: str
     quant: str
 
 
@@ -28,12 +28,11 @@ class UserBase(BaseModel):
 
 
 class UserCreate(UserBase):
-    password: str
+    pass
 
 
 class User(UserBase):
     id: int
-    is_active: bool
     items: List[Item] = []
 
     class Config:
