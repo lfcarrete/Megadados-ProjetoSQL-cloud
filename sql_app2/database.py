@@ -5,16 +5,10 @@ import os
 from dotenv import load_dotenv
 load_dotenv('DB.env')
 
-USERNAME = os.environ.get("USERNAME")
-PASSWORD = os.environ.get("PASSWORD")
-HOST = os.environ.get("HOST")
-DATABASE = os.environ.get("DATABASE")
-
-print("********************************")
-print(USERNAME)
-print("********************************")
-print(PASSWORD)
-print("********************************")
+USERNAME = os.environ.get("DB_USERNAME")
+PASSWORD = os.environ.get("DB_PASSWORD")
+HOST = os.environ.get("DB_HOST")
+DATABASE = os.environ.get("DB_DATABASE")
 
 ##########
 
