@@ -61,11 +61,19 @@ def delete_item_carrinho(db: Session, user_id: int, product_id: int):
         return "Nenhum produto com este id"
     
     else:
+        i = 0
         for e in usuario.items:
-            if db.query(models.Item).filter(models.Item.id == product_id).first() != None:
+            lista_prod.append(str(e.id))
+            print(lista_prod)
+            #print(e)
+            if e.id == product_id:
+              #  print(lista_prod[0])
                 usuario.items.remove(e)
+                #print(usuario.items)
+                db.commit()
             else:
                 lista_prod.append(e)
+            i+=1
         return usuario
     
     
