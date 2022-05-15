@@ -37,3 +37,10 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+
+class UpdateUser(UserBase):
+    email: Optional[str] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    gender: Optional[str] = None
+    #cart: Optional[Cart] = None

@@ -43,7 +43,48 @@ def get_carrinho_per_user(db: Session, user_id: int):
         return "Nenhum carrinho com este id"
     else:
         return db.query(models.Carrinho).filter(models.Carrinho.id_user == user_id).first()
-    
+
+def put_user(db: Session, user: schemas.User):
+
+    # get the existing data
+    db_user = db.query(schemas.User).filter(schemas.User.id == user.id).one_or_none()
+    if db_user is None:
+        return None
+
+    # Update model class variable from requested fields 
+    for var, value in vars(user).items():
+        setattr(db_user, var, value) if value else None
+
+    #db_user.modified = modified_now
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+    #selUser=db.query(models.User).filter(models.User.id==user_id).first()
+
+    # user_to_update.name=user.name
+    # user_to_update.price=user.price
+    # user_to_update.description=user.description
+    # user_to_update.on_offer=user.on_offer
+
+    #selUser = None
+
+    # for userDB in db[models.User]:
+    #     if userDB.id == user_id:
+    #         selUser = userDB
+
+    # if user.id != None:
+    #     selUser.id = user.id 
+    # if user.first_name != None:
+    #     selUser.first_name = user.first_name
+    # if user.last_name != None:
+    #     selUser.last_name = user.last_name
+    # if user.gender != None:
+    #     selUser.gender = user.gender
+
+
+
 def delete_item_carrinho(db: Session, user_id: int, product_id: int):
     
     lista_prod = []
