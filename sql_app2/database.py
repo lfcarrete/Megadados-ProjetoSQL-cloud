@@ -1,17 +1,22 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
+load_dotenv('DB.env')
 
-load_dotenv()
+USERNAME = os.environ.get("USERNAME")
+PASSWORD = os.environ.get("PASSWORD")
+HOST = os.environ.get("HOST")
+DATABASE = os.environ.get("DATABASE")
 
-USERNAME = os.getenv('USERNAME')
-PASSWORD = os.getenv('USERNAME')
-HOST = os.getenv('USERNAME')
-DATABASE = os.getenv('USERNAME')
+print("********************************")
+print(USERNAME)
+print("********************************")
+print(PASSWORD)
+print("********************************")
 
-#
+##########
 
 #SQLALCHEMY_DATABASE_URL = "sqlite:///./sql_app2.db"
 SQLALCHEMY_DATABASE_URL = "mysql+pymysql://" + USERNAME + ":" + PASSWORD + "@" + HOST + "/" + DATABASE
