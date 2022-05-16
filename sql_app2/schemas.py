@@ -3,19 +3,16 @@ from typing import List, Optional
 from pydantic import BaseModel
 
 
-class ItemBase(BaseModel):
-    produto: str
-    quant: str
-
-
-class ItemCreate(ItemBase):
-    pass
-
-
-class Item(ItemBase):
+class Item(BaseModel):
     id: int
-    owner_id: int
+    produto: str
+    class Config:
+        orm_mode = True
 
+class User_Item(BaseModel):
+    produto_id: int
+    owner_id: int
+    quantidade : int
     class Config:
         orm_mode = True
 

@@ -13,16 +13,18 @@ class User(Base):
     email = Column(String(45), unique=True, index=True)
     gender = Column(String(45), index=True)
 
-    items = relationship("Item", back_populates="owner")
 
 
 class Item(Base):
     __tablename__ = "items"
 
     id = Column(Integer, primary_key=True, index=True)
-    produto = Column(String(45), index=True)
-    quant = Column(Integer, index=True)
-    owner_id = Column(Integer, ForeignKey("users.id"))
+    produto = Column(String(45), index=True, unique = True)
 
-    owner = relationship("User", back_populates="items")
     
+class User_Item(Base):
+    __tablename__ = "user_items"
+    owner_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
+    produto_id = Column(Integer, ForeignKey('items.id'), primary_key=True)
+    quantidade = Column(Integer)
+
