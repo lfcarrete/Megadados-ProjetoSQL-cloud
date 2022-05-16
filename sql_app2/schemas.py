@@ -39,8 +39,13 @@ class User(UserBase):
         orm_mode = True
 
 class UpdateUser(UserBase):
+    id : Optional[int] = None
     email: Optional[str] = None
     first_name: Optional[str] = None
     last_name: Optional[str] = None
     gender: Optional[str] = None
-    #cart: Optional[Cart] = None
+    #items :  Optional[str] = None
+    # email: Optional[str] = None
+    # first_name: Optional[str] = None
+    # last_name: Optional[str] = None
+    # gender: Optional[str] = None

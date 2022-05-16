@@ -27,6 +27,12 @@ def get_item(db: Session, item_id: int):
     return db.query(models.Item).filter(models.Item.id == item_id).first()
 
 def get_items(db: Session, skip: int = 0, limit: int = 100):
+    
+    print("\n")
+    oii = get_users(db, skip=0, limit=100)
+    print(oii)
+    print("\n")
+
     return db.query(models.Item).offset(skip).limit(limit).all()
 
 
@@ -44,22 +50,42 @@ def get_carrinho_per_user(db: Session, user_id: int):
     else:
         return db.query(models.Carrinho).filter(models.Carrinho.id_user == user_id).first()
 
-def put_user(db: Session, user: schemas.User):
+def put_user(db: Session, user: schemas.UpdateUser, user_id : int):
 
     # get the existing data
-    db_user = db.query(schemas.User).filter(schemas.User.id == user.id).one_or_none()
-    if db_user is None:
-        return None
+    #db_user = db.query(schemas.User).filter(schemas.User.id == user.id).one_or_none()
+    db_user = get_users(db, skip=0, limit=100)
 
-    # Update model class variable from requested fields 
-    for var, value in vars(user).items():
-        setattr(db_user, var, value) if value else None
+    selUser = None
 
-    #db_user.modified = modified_now
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-    return db_user
+    for userDB in db_user:
+        if userDB.id == user_id:
+            selUser = userDB
+
+    if user.id != None:
+        selUser.id = user.id
+    if user.email != None:
+        selUser.price = user.email
+    if user.first_name != None:
+        selUser.first_name = user.first_name
+    if user.last_name != None:
+        selUser.last_name = user.last_name
+    if user.gender != None:
+        selUser.gender = user.gender
+
+    return selUser
+    # if db_user is None:
+    #     return None
+
+    # # Update model class variable from requested fields 
+    # for var, value in vars(user).items():
+    #     setattr(db_user, var, value) if value else None
+
+    # #db_user.modified = modified_now
+    # db.add(db_user)
+    # db.commit()
+    # db.refresh(db_user)
+    # return db_user
 
     #selUser=db.query(models.User).filter(models.User.id==user_id).first()
 
