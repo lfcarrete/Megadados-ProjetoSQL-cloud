@@ -35,20 +35,22 @@ def create_items(db: Session, itemName: str):
 
 
 def get_item(db: Session, item_id: int):
-    return db.query(models.Item).filter(models.Item.id == item_id).first()
+    item = db.query(models.Item).filter(models.Item.id == item_id).first()
+    return item
 
 
 def get_items(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Item).offset(skip).limit(limit).all()
+    item = db.query(models.Item).offset(skip).limit(limit).all()
+    return item
 
 
 def create_user_item(db: Session, item_id: int, user_id: int, quantidade: int):
     user = get_user(db, user_id)
     if(not user):
-        return "User not found"
+        return "Usario nao encontrado"
     item = get_item(db, item_id)
     if(not item):
-        return "Product not found"
+        return "Produto nao encontrado"
     db_item = models.User_Item(
         produto_id=item_id, owner_id=user_id, quantidade=quantidade)
     db.add(db_item)
