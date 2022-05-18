@@ -5,10 +5,6 @@ from sqlalchemy_utils import database_exists
 from sqlalchemy_utils.functions.database import create_database
 
 
-import os
-from dotenv import load_dotenv
-load_dotenv('DB.env')
-
 #USERNAME = os.environ.get("DB_USERNAME")
 #PASSWORD = os.environ.get("DB_PASSWORD")
 #HOST = os.environ.get("DB_HOST")
