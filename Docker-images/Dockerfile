@@ -7,4 +7,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD [ "python3 -m uvicorn ./app" ]
+CMD [ "/usr/local/bin/python3",  "-m", "uvicorn", "app.main:app" ]
